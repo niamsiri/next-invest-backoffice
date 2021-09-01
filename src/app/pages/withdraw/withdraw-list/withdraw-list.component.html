@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">{{title}} ({{pagin.total}})</h4>
+                <div class="dt-action-buttons text-end">
+                    <div class="dt-buttons d-inline-flex">
+                        <select class="form-control" [(ngModel)]="params.status" name="status" placeholder="สถานะ"
+                            (ngModelChange)="ngOnInit()">
+                            <option [value]="null">ทั้งหมด</option>
+                            <option value="APPROVE">อนุมัติ</option>
+                            <option value="NONAPPROVE">รออนุมัติ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>หมายเลขรายการ</th>
+                            <th style="width: 200px;">สมาชิก</th>
+                            <th>วันที่</th>
+                            <th>สถานะ</th>
+                            <th style="width: 230px;">จำนวนเงินที่ถอน</th>
+                            <th>เครื่องมือ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataList" [ngClass]="{ 'inactive': item?.status =='APPROVE'}">
+                            <td>{{item?.uid}}</td>
+                            <td>
+                                <ul class="small">
+                                    <li>เบอร์โทร: {{item?.createdBy?.username}}</li>
+                                    <li>ยอดเงินปัจจุบัน: <span class="text-gold">{{item?.createdBy?.credit | number}}</span></li>
+                                </ul>
+                            </td>
+                            <td class="text-center">{{item?.createdAt | date: "dd/MM/yyyy เวลา HH:ss a"}}</td>
+                            <td class="text-center">
+                                <span class="badge badge-pill mr-1 badge-secondary"
+                                    *ngIf="item?.status == 'NONAPPROVE'">
+                                    รออนุมัติ
+                                </span>
+                                <span class="badge badge-pill mr-1 badge-success" *ngIf="item?.status == 'APPROVE'">
+                                    อนุมัติ
+                                </span>
+                            </td>
+                            <td>{{item?.creditWithdraw |number}}</td>
+                            <td>
+                                <div ngbDropdown container="body">
+                                    <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle
+                                        data-toggle="dropdown">
+                                        <i data-feather="more-vertical"></i>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                        <a *ngIf="item?.status == 'NONAPPROVE'" ngbDropdownItem href="javascript:void(0);"
+                                            (click)="updateStatusItem(item?._id, 'APPROVE')">
+                                          <span>ยืนยันการถอน</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="dataList.length == 0">
+                            <td class="text-center" colspan="5">ไม่พบข้อมูล{{title}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group mt-1">
+                <pagination [total]="pagin.total" [limit]="params.limit" [pages]="pagin.pages" [page]="params.page"
+                    (onPageChange)="pageChange($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

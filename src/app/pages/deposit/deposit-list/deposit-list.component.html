@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">{{title}} ({{pagin.total}})</h4>
+                <div class="dt-action-buttons text-end">
+                    <div class="dt-buttons d-inline-flex">
+                        <select class="form-control" [(ngModel)]="params.status" name="status" placeholder="สถานะ"
+                            (ngModelChange)="ngOnInit()">
+                            <option [value]="null">ทั้งหมด</option>
+                            <option value="APPROVE">อนุมัติ</option>
+                            <option value="NONAPPROVE">รออนุมัติ</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>หมายเลขรายการ</th>
+                            <th style="width: 200px;">สมาชิก</th>
+                            <th>สลิป</th>
+                            <th>เวลาแจ้งโอน</th>
+                            <th>สถานะ</th>
+                            <th style="width: 230px;">จำนวนเงินที่เติม</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataList">
+                            <td>{{item?.uid}}</td>
+                            <td>
+                                <ul class="small">
+                                    <li>เบอร์โทร: {{item?.createdBy?.username}}</li>
+                                    <li>ยอดเงินปัจจุบัน: <span class="text-gold">{{item?.createdBy?.credit | number}}</span></li>
+                                </ul>
+                            </td>
+                            <td class="text-center">
+                                <a href="javascript:void(0)" (click)="modalOpen(viewSilpModal)">
+                                    <i data-feather="eye"></i>
+                                </a>
+                            </td>
+                            <td class="text-center">{{item?.createdAt | date: "dd/MM/yyyy เวลา HH:ss a"}}</td>
+                            <td class="text-center">
+                                <span class="badge badge-pill mr-1 badge-secondary"
+                                    *ngIf="item?.status == 'NONAPPROVE'">
+                                    รออนุมัติ
+                                </span>
+                                <span class="badge badge-pill mr-1 badge-success" *ngIf="item?.status == 'APPROVE'">
+                                    อนุมัติ
+                                </span>
+                                <span class="badge badge-pill mr-1 badge-info" *ngIf="item?.status == 'BONUS'">
+                                    โบนัส
+                                </span>
+                            </td>
+                            <td>
+                                <div class="input-group" *ngIf="item?.status == 'NONAPPROVE'">
+                                    <input type="number" class="form-control form-control-sm border-white"
+                                        [(ngModel)]="item.credit" [disabled]="item?.status != 'NONAPPROVE'">
+                                    <div class=" input-group-append">
+                                        <button class="btn btn-warning btn-sm" type="button"
+                                            [disabled]="!item.credit && item?.status == 'NONAPPROVE'"
+                                            (click)="approveDeposit(item?._id, item.credit)">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <input type="number" *ngIf="item?.status == 'APPROVE' || item?.status == 'BONUS'" class="form-control form-control-sm border-success text-success"
+                                    [value]="item.creditApprove" readonly>
+                            </td>
+                            <ng-template #viewSilpModal let-modal>
+                                <div class="modal-header">
+                                    <button type="button" class="close" (click)="modal.dismiss()" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body p-1" tabindex="0" ngbAutofocus>
+                                    <img width="100%" [src]="imgUrl + item?.slip">
+                                </div>
+                            </ng-template>
+                        </tr>
+                        <tr *ngIf="dataList.length == 0">
+                            <td class="text-center" colspan="5">ไม่พบข้อมูล{{title}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group mt-1">
+                <pagination [total]="pagin.total" [limit]="params.limit" [pages]="pagin.pages" [page]="params.page"
+                    (onPageChange)="pageChange($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

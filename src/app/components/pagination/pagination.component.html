@@ -1,0 +1,7 @@
+<div class="row" *ngIf="total > 0">
+    <div class="col-12 ">
+        <ngb-pagination [collectionSize]="total" class="d-flex justify-content-center" [pageSize]="limit"
+            [(page)]="page" [maxSize]="pages" [rotate]="true" [boundaryLinks]="true" (pageChange)="pageChange($event)">
+        </ngb-pagination>
+    </div>
+</div>

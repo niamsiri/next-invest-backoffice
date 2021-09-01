@@ -1,0 +1,57 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-md-center">
+                        <div class="col-sm-12 col-md-8 col-lg-6">
+                            <div class="form-group mt-4">
+                                <label class="form-label">ธนาคาร</label>
+                                <select class="form-control" placeholder="บัญชีธนาคาร" formControlName="bankName"
+                                    [ngClass]="{ 'is-invalid error': submitted && form.bankName.errors }">
+                                    <option value="">กรุณาเลือกธนาคาร</option>
+                                    <option value="กสิกร(KBANK)">กสิกร (KBANK)</option>
+                                    <option value="ไทยพาณิชย์(SCB)">ไทยพาณิชย์ (SCB)</option>
+                                </select>
+                                <div *ngIf="submitted && form.bankName.errors" class="invalid-feedback"
+                                    [ngClass]="{ 'd-block': submitted && form.bankName.errors }">
+                                    <div *ngIf="form.bankName.errors.required">
+                                        กรุณาเลือก บัญชีธนาคาร</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">เลขที่บัญชี</label>
+                                <input type="text" formControlName="accountNumber" class="form-control" tabindex="1"
+                                    autofocus [ngClass]="{ 'is-invalid': submitted && form.accountNumber.errors }"
+                                    (keypress)="numberOnly($event)" />
+                                <div *ngIf="submitted && form.accountNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="form.accountNumber.errors.required">กรุณากรอก เลขที่บัญชี</div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label class="form-label">ชื่อบัญชี</label>
+                                    <input type="text" formControlName="accountName" class="form-control" tabindex="1"
+                                        placeholder="ชื่อ-นามสกุล" autofocus
+                                        [ngClass]="{ 'is-invalid': submitted && form.accountName.errors }" />
+                                    <div *ngIf="submitted && form.accountName.errors" class="invalid-feedback">
+                                        <div *ngIf="form.accountName.errors.required">กรุณากรอก ชื่อ-นามสกุล</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a class="btn btn-danger waves-effect mr-1" [routerLink]="['/user']">
+                        <i data-feather="arrow-left"></i> ย้อนกลับ
+                    </a>
+                    <button class="btn btn-primary waves-effect" type="submit">
+                        <i data-feather="save"></i> บันทึก
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

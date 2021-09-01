@@ -1,0 +1,59 @@
+<div class="auth-wrapper auth-v1 px-2">
+  <div class="auth-inner py-2">
+    <div class="card mb-0">
+      <div class="card-body">
+        <a href="javascript:void(0);" class="brand-logo">
+          <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" height="28" />
+          <h2 class="brand-text text-primary ml-1">Next Invest Office</h2>
+        </a>
+        <p class="card-text small text-center">
+          เข้าสู่ระบบเพื่อเข้าใช้งานระบบ Next Invest Office
+        </p>
+        <ngb-alert [type]="'danger'" *ngIf="error && submitted" class="mt-1" [dismissible]="false">
+          <div class="alert-body small">
+            <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+            <span>Username or Password not correct!</span>
+          </div>
+        </ngb-alert>
+        <form class="auth-login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" formControlName="username" class="form-control" placeholder="Username"
+              aria-describedby="username" tabindex="1" autofocus
+              [ngClass]="{ 'is-invalid': submitted && form?.username?.errors }" />
+            <div *ngIf="submitted && form?.username?.errors" class="invalid-feedback">
+              <div *ngIf="form.username?.errors?.required">กรุณากรอก Username</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="d-flex justify-content-between">
+              <label for="login-password">Password</label>
+            </div>
+            <div class="input-group input-group-merge form-password-toggle">
+              <input [type]="passwordTextType ? 'text' : 'password'" formControlName="password"
+                class="form-control form-control-merge" tabindex="2" placeholder="·········"
+                aria-describedby="login-password" [ngClass]="{
+                  'is-invalid error': submitted && form?.password?.errors
+                }" />
+
+              <div class="input-group-append">
+                <span class="input-group-text cursor-pointer"><i class="feather font-small-4" [ngClass]="{
+                      'icon-eye-off': passwordTextType,
+                      'icon-eye': !passwordTextType
+                    }" (click)="passwordTextType = !passwordTextType"></i></span>
+              </div>
+            </div>
+            <div *ngIf="submitted && form?.password?.errors" class="invalid-feedback"
+              [ngClass]="{ 'd-block': submitted && form?.password?.errors }">
+              <div *ngIf="form.password?.errors.required">กรุณากรอก Password</div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" tabindex="4" rippleEffect>
+            เข้าสู่ระบบ
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

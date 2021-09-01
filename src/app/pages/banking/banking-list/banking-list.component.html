@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">{{title}} ({{pagin.total}})</h4>
+                <div class="dt-action-buttons text-end">
+                    <div class="dt-buttons d-inline-flex">
+                        <a class="dt-button btn btn-primary btn-sm" [routerLink]="['add']">
+                            <i data-feather="plus"></i>
+                            <span>เพิ่ม{{title}}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>ธนาคาร</th>
+                            <th>เลขบัญชี</th>
+                            <th>ชื่อบัญชี</th>
+                            <th>สถานะ</th>
+                            <th>เครื่องมือ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataList" [ngClass]="{ 'inactive': item?.status =='INACTIVE'}">
+                            <td>
+                                <img class="round mr-1" height="40" width="40" [src]="imgUrl + item?.bankLogo" />
+                                <span>{{item?.bankName}}</span>
+                            </td>
+                            <td>{{item?.accountNumber}}</td>
+                            <td>{{item?.accountName}}</td>
+                            <td>
+                                <span class="badge badge-pill mr-1"
+                                    [ngClass]="{'badge-success': item?.status != 'INACTIVE' ,'badge-danger': item?.status == 'INACTIVE'}">{{item?.status}}</span>
+                            </td>
+                            <td class="overflow-hidden">
+                                <div ngbDropdown container="body">
+                                    <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle
+                                        data-toggle="dropdown">
+                                        <i data-feather="more-vertical"></i>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                        <a ngbDropdownItem href="javascript:void(0);"
+                                            [routerLink]="['edit', item?._id]">
+                                            <i data-feather="edit-2" class="mr-50"></i><span>แก้ไข</span>
+                                        </a>
+                                        <a ngbDropdownItem href="javascript:void(0);" (click)="deleteItem(item?._id)">
+                                            <i data-feather="trash" class="mr-50"></i><span>ลบ</span>
+                                        </a>
+                                        <a *ngIf="item?.status == 'ACTIVE'" ngbDropdownItem href="javascript:void(0);"
+                                            (click)="updateStatusItem(item?._id, 'INACTIVE')">
+                                            <i data-feather="eye-off" class="mr-50"></i><span>ปิดการแสดง</span>
+                                        </a>
+                                        <a *ngIf="item?.status == 'INACTIVE'" ngbDropdownItem href="javascript:void(0);"
+                                            (click)="updateStatusItem(item?._id, 'ACTIVE')">
+                                            <i data-feather="eye" class="mr-50"></i><span>เปิดการแสดง</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="dataList.length == 0">
+                            <td class="text-center" colspan="5">ไม่พบข้อมูล{{title}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group mt-1">
+                <pagination [total]="pagin.total" [limit]="params.limit" [pages]="pagin.pages" [page]="params.page"
+                    (onPageChange)="pageChange($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

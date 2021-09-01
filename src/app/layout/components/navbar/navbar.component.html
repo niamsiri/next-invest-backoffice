@@ -1,0 +1,32 @@
+<div *ngIf="horizontalMenu" class="navbar-header d-xl-block d-none">
+  <ul class="nav navbar-nav flex-row">
+    <li class="nav-item">
+      <a class="navbar-brand" [routerLink]="['/']">
+        <span class="brand-logo">
+          <img src="{{ coreConfig.app.appLogoImage }}" alt="brand-logo" width="36" />
+        </span>
+        <h2 class="brand-text mb-0">{{ coreConfig.app.appName }}</h2>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<div class="navbar-container d-flex content">
+  <div class="bookmark-wrapper d-flex align-items-center">
+    <ul class="nav navbar-nav d-xl-none" *ngIf="!coreConfig.layout.menu.hidden">
+      <li class="nav-item">
+        <a class="nav-link menu-toggle" (click)="toggleSidebar('menu')">
+          <span [data-feather]="'menu'" [class]="'ficon'"></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <ul class="nav navbar-nav align-items-center ml-auto">
+    <li class="nav-item">
+      <a class="nav-link" (click)="logout()">
+        <i [data-feather]="'power'" class="ficon"></i>
+      </a>
+    </li>
+  </ul>
+</div>

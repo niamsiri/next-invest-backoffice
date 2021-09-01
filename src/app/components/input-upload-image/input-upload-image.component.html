@@ -1,0 +1,9 @@
+<div class="form-group text-center">
+    <img class="img-upload" [ngClass]="{'round': round ? round : false}" [src]="imgPreview ? imgPreview : defaultPreview" [attr.width]="width ? width : '100%'" [attr.height]="height ? height : '100%'">
+    <div class="form-group mt-1">
+        <input type="file" id="file" class="file-input" (change)="onImageChange($event)" accept="image/*" hidden>
+        <span>คลิก <label class="upload-file-text text-primary" for="file">ที่นี่</label>
+            เพื่ออัพโหลด{{text ? text : 'รูปภาพ'}}
+        </span>
+    </div>
+</div>

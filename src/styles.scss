@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css?family=Kanit");
+
+@import "@core/scss/core.scss";
+@import "./assets/scss/styles";
+
+@import "@core/scss/angular/libs/toastr.component.scss";
+@import "@core/scss/angular/libs/select.component.scss";
+
+html,
+body {
+  font-family: "Kanit", Arial, Helvetica, sans-serif;
+  font-weight: normal;
+}
+
+.navigation,
+.btn,
+.nav-link {
+  font-family: "Kanit", Arial, Helvetica, sans-serif;
+}
+
+.img-preview-upload {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 0;
+  object-fit: cover;
+  border: 1px solid grey;
+}
+
+.upload-file-text {
+  cursor: pointer;
+  color: #7367f0;
+  font-size: 16px;
+}
+
+.avatar-cicle {
+  max-height: 45px;
+  max-width: 45px;
+  border-radius: 50%;
+}
+
+ng-select.is-invalid.ng-invalid.ng-touched,
+ng-select.is-invalid.ng-invalid.ng-untouched {
+  .ng-select-container {
+    border-color: #ea5455;
+  }
+}
+
+.inactive {
+  opacity: 0.5;
+}
+
+.round {
+  border-radius: 50%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+ul li {
+  list-style-type: none;
+}

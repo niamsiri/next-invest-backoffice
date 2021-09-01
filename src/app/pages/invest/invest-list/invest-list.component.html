@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">{{title}} ({{pagin.total}})</h4>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>หมายเลขรายการ</th>
+                            <th>ชื่อแพ็คเกจ</th>
+                            <th>ยอดเงินที่จะได้</th>
+                            <th>เงินที่ได้ต่องวด</th>
+                            <th>วันที่ได้ต่องวด</th>
+                            <th>วันที่สร้าง</th>
+                            <th>สถานะ</th>
+                            <th>เครื่องมือ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataList" [ngClass]="{ 'inactive': item?.status =='INACTIVE'}">
+                            <td><a href="javascript:void(0)">{{item?.uid}}</a></td>
+                            <td>{{item?.package?.title}} </td>
+                            <td>{{item?.creditInvest + item?.creditProfit}}</td>
+                            <td>
+                                <ul class="small">
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus1}">งวดที่ 1: {{item?.withdrawCredit1}}</li>
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus2}">งวดที่ 2: {{item?.withdrawCredit2}}</li>
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus3}">งวดที่ 3: {{item?.withdrawCredit3}}</li>
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus4}">งวดที่ 4: {{item?.withdrawCredit4}}</li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul class="small">
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus1}">งวดที่ 1: {{item?.withdrawDate1 | date: 'dd/MM/yyyy'}}</li>
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus2}">งวดที่ 2: {{item?.withdrawDate2 | date: 'dd/MM/yyyy'}}</li>
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus3}">งวดที่ 3: {{item?.withdrawDate3 | date: 'dd/MM/yyyy'}}</li>
+                                    <li [ngClass]="{ 'expire': item?.withdrawStatus4}">งวดที่ 4: {{item?.withdrawDate4 | date: 'dd/MM/yyyy'}}</li>
+                                </ul>
+                            </td>
+                            <td>{{item?.createdAt | date: 'dd/MM/yyyy'}} </td>
+                            <td>
+                                <span class="badge badge-pill mr-1 badge-success"
+                                    *ngIf="item?.status == 'ACTIVE'">ดำเนินการ</span>
+                                <span class="badge badge-pill mr-1 badge-secondary"
+                                    *ngIf="item?.status == 'EXPIRE'">ครบกำหนด</span>
+                            </td>
+                            <td class="overflow-hidden">
+                                <div ngbDropdown container="body">
+                                    <button type="button" class="btn btn-sm hide-arrow" ngbDropdownToggle
+                                        data-toggle="dropdown">
+                                        <i data-feather="more-vertical"></i>
+                                    </button>
+                                    <div ngbDropdownMenu>
+                                        <a *ngIf="!item?.withdrawStatus1" ngbDropdownItem href="javascript:void(0);"
+                                            (click)="updateWithdrawStatus(item?._id, 1)">
+                                            <span>ครบกำหนดงวด 1</span>
+                                        </a>
+                                        <a *ngIf="!item?.withdrawStatus2" ngbDropdownItem href="javascript:void(0);"
+                                            (click)="updateWithdrawStatus(item?._id, 2)">
+                                            <span>ครบกำหนดงวด 2</span>
+                                        </a>
+                                        <a *ngIf="!item?.withdrawStatus3" ngbDropdownItem href="javascript:void(0);"
+                                            (click)="updateWithdrawStatus(item?._id, 3)">
+                                            <span>ครบกำหนดงวด 3</span>
+                                        </a>
+                                        <a *ngIf="!item?.withdrawStatus4" ngbDropdownItem href="javascript:void(0);"
+                                            (click)="updateWithdrawStatus(item?._id, 4)">
+                                            <span>ครบกำหนดงวด 4</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr *ngIf="dataList?.length == 0">
+                            <td class="text-center" colspan="5">ไม่พบข้อมูล{{title}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="form-group mt-1">
+                <pagination [total]="pagin.total" [limit]="params.limit" [pages]="pagin.pages" [page]="params.page"
+                    (onPageChange)="pageChange($event)"></pagination>
+            </div>
+        </div>
+    </div>
+</div>

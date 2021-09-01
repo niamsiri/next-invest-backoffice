@@ -1,0 +1,47 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <app-content-header [contentHeader]="contentHeader"></app-content-header>
+        <form [formGroup]="dataForm" (ngSubmit)="onSubmit()">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row justify-content-md-center">
+                        <div class="col-sm-12 col-md-8 col-lg-6">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">ชื่อ</label>
+                                        <input type="text" class="form-control" name="firstname" id="firstname"
+                                            [ngClass]="{ 'is-invalid': submitted && form?.firstName?.errors }"
+                                            formControlName="firstName">
+                                        <div *ngIf="submitted && form?.firstName?.errors" class="invalid-feedback">
+                                            <div *ngIf="form.firstName?.errors">กรุณากรอกชื่อ</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">นามสกุล</label>
+                                        <input type="text" class="form-control" name="lastname" id="lastname"
+                                            [ngClass]="{ 'is-invalid': submitted && form?.lastName?.errors }"
+                                            formControlName="lastName">
+                                        <div *ngIf="submitted && form?.lastName?.errors" class="invalid-feedback">
+                                            <div *ngIf="form.lastName?.errors">กรุณากรอกนามสกุล</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a class="btn btn-danger waves-effect mr-1" [routerLink]="['/admin']">
+                        <i data-feather="arrow-left"></i> ย้อนกลับ
+                    </a>
+                    <button class="btn btn-primary waves-effect" type="submit">
+                        <i data-feather="save"></i> บันทึก
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
